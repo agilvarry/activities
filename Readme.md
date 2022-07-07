@@ -1,3 +1,10 @@
 #Activities Application
 
-Building an "Activities" Application to become more familar with .NET and solidify my knowledge of React.
+I am building this desktop application as part of a course on using .NET 6 and React, mainly to help me get more comfortable with C# and .NET.
+
+##Dependencies
+
+* .NET 6
+* React 17
+* Axios
+* Semantic UI - Front End CSS framework similar to bootstrap or 
