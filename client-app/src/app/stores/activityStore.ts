@@ -8,6 +8,7 @@ export default class ActivityStore {
   editMode = false;
   loading = false;
   loadingInitial = true;
+
   constructor() {
     makeAutoObservable(this);
   }
@@ -17,6 +18,16 @@ export default class ActivityStore {
       (a, b) => Date.parse(a.date) - Date.parse(b.date)
     );
   }
+
+  get groupedActivities() {
+    return Object.entries(
+        this.activitiesByDate.reduce((activities, activity) => {
+            const date = activity.date;
+            activities[date] = activities[date] ? [...activities[date], activity] : [activity];
+            return activities;
+        }, {} as {[key: string]: Activity[]})
+    )
+}
 
   loadActivities = async () => {
     this.loadingInitial = true;
@@ -35,11 +46,10 @@ export default class ActivityStore {
   };
 
   loadActivity = async (id: string) => {
-    
     let activity = this.getActivity(id);
     if (activity) {
       this.selectedActivity = activity;
-      return activity
+      return activity;
     } else {
       this.loadingInitial = true;
       try {
@@ -47,8 +57,8 @@ export default class ActivityStore {
         this.setActivity(activity);
         runInAction(() => {
           this.selectedActivity = activity;
-        })
-        
+        });
+
         this.setLoadingInitial(false);
         return activity;
       } catch (error) {
